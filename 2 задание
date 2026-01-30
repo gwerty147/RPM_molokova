@@ -1,0 +1,61 @@
+Питон:
+class drawing:
+    def __init__(self, tassel, pencil, paper, watercolor):
+        self.tassel = tassel
+        self.pencil = pencil
+        self.paper = paper
+        self.watercolor = watercolor
+        
+    def info(self):
+        print(f"Кисточка: {self.tassel}"
+            f"\nКарандаш: {self.pencil}"
+            f"\nБумага: {self.paper}"
+            f"\nАкварель: {self.watercolor}")
+            
+class Shop(drawing):
+        def __init__(self, tassel, pencil, paper, watercolor, price, style):
+            super(). __init__(tassel, pencil, paper, watercolor)
+            self.price = price
+            self.style = style
+            
+art = Shop("thick", "colorfull", "A3", "yes", "500 rub", "good")
+          
+art.info()
+
+с#: (НЕ ДОДЕЛАНО)
+
+class drawing
+{
+    string tassel;
+    string pencil;
+    string paper;
+    string watercolor;
+    private string name;
+
+    public drawing(string name)
+    {
+        this.name = name;
+        Console.WriteLine("drawing(string name)");
+    }
+    public drawing(string tassel, string pencil, string paper, string watercolor)
+    { this.tassel = tassel;
+        this.pencil = pencil;
+        this.paper = paper;
+        this.watercolor = watercolor;
+        Console.WriteLine(paper);
+
+    }
+    public virtual void info()
+    {
+        Console.WriteLine($"Кисточка: {tassel}");
+        Console.WriteLine($"Карандаш: {pencil}");
+        Console.WriteLine($"Бумага: {paper}");
+        Console.WriteLine($"Акварель: {watercolor}");
+    }
+    public class shop : drawing
+    {
+        public string price
+        public string style
+        public shop(string tassel, string pencil, string paper, string watercolor, string name, string price, string style)
+    }
+}
