@@ -1,4 +1,6 @@
 Питон:
+
+
 class drawing:
     def __init__(self, tassel, pencil, paper, watercolor):
         self.tassel = tassel
@@ -22,40 +24,63 @@ art = Shop("thick", "colorfull", "A3", "yes", "500 rub", "good")
           
 art.info()
 
+
+
+
+
 с#: (НЕ ДОДЕЛАНО)
 
-class drawing
+
+
+using System;
+
+class Drawing
 {
-    string tassel;
-    string pencil;
-    string paper;
-    string watercolor;
-    private string name;
+    public string Tassel { get; set; }
+    public string Pencil { get; set; }
+    public string Paper { get; set; }
+    public string Watercolor { get; set; }
 
-    public drawing(string name)
+    public Drawing(string tassel, string pencil, string paper, string watercolor)
     {
-        this.name = name;
-        Console.WriteLine("drawing(string name)");
+        Tassel = tassel;
+        Pencil = pencil;
+        Paper = paper;
+        Watercolor = watercolor;
     }
-    public drawing(string tassel, string pencil, string paper, string watercolor)
-    { this.tassel = tassel;
-        this.pencil = pencil;
-        this.paper = paper;
-        this.watercolor = watercolor;
-        Console.WriteLine(paper);
 
-    }
-    public virtual void info()
+    public void Info()
     {
-        Console.WriteLine($"Кисточка: {tassel}");
-        Console.WriteLine($"Карандаш: {pencil}");
-        Console.WriteLine($"Бумага: {paper}");
-        Console.WriteLine($"Акварель: {watercolor}");
+        Console.WriteLine($"Кисточка: {Tassel}\nКарандаш: {Pencil}\nБумага: {Paper}\nАкварель: {Watercolor}");
     }
-    public class shop : drawing
+}
+
+class Shop : Drawing
+{
+    public string Price { get; set; }
+    public string Style { get; set; }
+
+    public Shop(string tassel, string pencil, string paper, string watercolor, string price, string style) : base(tassel, pencil, paper, watercolor)
     {
-        public string price
-        public string style
-        public shop(string tassel, string pencil, string paper, string watercolor, string name, string price, string style)
+        Price = price;
+        Style = style;
+    }
+
+   
+    public void InfoFull()
+    {
+        Console.WriteLine($"Цена: {Price}\nСтиль: {Style}");
+    }
+}
+
+class Program
+{
+    static void Main()
+    {  
+        Shop art = new Shop("thick", "colorfull", "A3", "yes", "500 rub", "good");
+        art.Info();
+        art.InfoFull();
+
+        
     }
 }
