@@ -1,28 +1,53 @@
 Питон:
 
-
 class drawing:
     def __init__(self, tassel, pencil, paper, watercolor):
         self.tassel = tassel
         self.pencil = pencil
         self.paper = paper
         self.watercolor = watercolor
-        
+
     def info(self):
-        print(f"Кисточка: {self.tassel}"
-            f"\nКарандаш: {self.pencil}"
-            f"\nБумага: {self.paper}"
-            f"\nАкварель: {self.watercolor}")
-            
+        print(f"Кисточка: {self.tassel}")
+        print(f"Карандаш: {self.pencil}")
+        print(f"Бумага: {self.paper}")
+        print(f"Акварель: {self.watercolor}")
+
 class Shop(drawing):
-        def __init__(self, tassel, pencil, paper, watercolor, price, style):
-            super(). __init__(tassel, pencil, paper, watercolor)
-            self.price = price
-            self.style = style
-            
-art = Shop("thick", "colorfull", "A3", "yes", "500 rub", "good")
-          
+    def __init__(self, tassel, pencil, paper, watercolor, price, style):
+        super().__init__(tassel, pencil, paper, watercolor)
+      
+        self.price = price
+        self.style = style
+
+    def display_shop_details(self):
+       
+        print(f"Цена товара: {self.price} rub")
+        print(f"Стиль товара: {self.style}")
+
+
+    def calculate(self, quantity):
+       
+        total_cost = self.price * quantity
+        return total_cost
+   
+
+
+art = Shop("thick", "colorfull", "A3", "yes", 500, "good")
+
+print("Детали для рисования:")
 art.info()
+
+print("\nДетали магазина:")
+art.display_shop_details()
+
+print("\n расчет стоимости")
+
+
+desired_quantity = 4
+calculated_total = art.calculate(desired_quantity)
+
+print(f"Стоимость {desired_quantity} ед. товара: {calculated_total:.2f} rub"
 
 
 
