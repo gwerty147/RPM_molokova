@@ -41,7 +41,7 @@ class Drawing
     public string Paper { get; set; }
     public string Watercolor { get; set; }
 
-    public Drawing(string tassel, string pencil, string paper, string watercolor)
+    public Drawing(string tassel, string pencil, string paper, string watercolor) //присваеваем значения
     {
         Tassel = tassel;
         Pencil = pencil;
