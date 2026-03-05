@@ -1,0 +1,112 @@
+using System.Drawing.Printing;
+using System.Net;
+using System.Text;
+using System.Windows.Forms.VisualStyles;
+using System.Xml.Linq;
+using System.Net.Http;
+using System.Threading.Tasks;
+using Newtonsoft.Json.Linq;
+using ExcelDataReader;
+
+
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using System.Data;
+
+namespace WinFormsApp3
+{
+    public partial class Form1 : Form
+    {
+        public Form1()
+        {
+            InitializeComponent();
+            System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
+        }
+
+       
+        private async void button1_Click(object sender, EventArgs e)
+        {
+            
+            txbContent.Text = "Загрузка и обработка файла...";
+
+            try
+            {
+                // Ссылка на открытый файл Excel
+                string fileUrl = "https://go.microsoft.com/fwlink/?LinkID=521962";
+                string tempPath = Path.Combine(Path.GetTempPath(), "data_sample.xlsx");
+
+                using (HttpClient client = new HttpClient())
+                {
+                    //Скачивание файла
+                    byte[] fileBytes = await client.GetByteArrayAsync(fileUrl);
+                    await File.WriteAllBytesAsync(tempPath, fileBytes);
+
+                    // Чтение Excel файла
+                    using (var stream = File.Open(tempPath, FileMode.Open, FileAccess.Read))
+                    {
+                        using (var reader = ExcelReaderFactory.CreateReader(stream))
+                        {
+                            // Превращаем Excel в DataSet (набор таблиц)
+                            var result = reader.AsDataSet();
+                            DataTable table = result.Tables[0]; // Берем первый лист
+
+                            StringBuilder sb = new StringBuilder();
+                            sb.AppendLine($"Файл успешно загружен и прочитан");
+                            sb.AppendLine($"Лист: {table.TableName}");
+                            sb.AppendLine(new string('═', 100));
+
+                            // Читаем заголовки (первая строка)
+                            for (int i = 0; i < table.Columns.Count; i++)
+                            {
+                                sb.Append($"{table.Rows[0][i],-20}");
+                            }
+                            sb.AppendLine();
+                            sb.AppendLine(new string('─', 100));
+
+                            // Читаем данные (пропустим первую строку заголовков)
+                            for (int i = 1; i < Math.Min(table.Rows.Count, 50); i++) // Ограничим 50 строками
+                            {
+                                for (int j = 0; j < table.Columns.Count; j++)
+                                {
+                                    string val = table.Rows[i][j]?.ToString() ?? "";
+                                    // Обрезаем длинные строки для красивого вывода
+                                    if (val.Length > 18) val = val.Substring(0, 15) + "...";
+                                    sb.Append($"{val,-20}");
+                                }
+                                sb.AppendLine();
+                            }
+
+                            if (table.Rows.Count > 50)
+                                sb.AppendLine("\n... данные обрезаны для предпросмотра ...");
+
+                            txbContent.Text = sb.ToString();
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка: {ex.Message}", "Ошибка");
+            }
+          
+        }
+    }
+    
+}
+    
+    
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
