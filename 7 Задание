@@ -1,0 +1,84 @@
+http://localhost:5230/api/users/3
+
+
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Http;
+using System.Collections.Generic;
+using System.Linq;
+
+var builder = WebApplication.CreateBuilder(args);
+
+
+builder.Services.AddEndpointsApiExplorer();
+var app = builder.Build();
+
+
+int idCounter = 1;
+List<Person> users = new List<Person>
+{
+    new() { Id = idCounter++, Name = "Котенок", Age = 37 },
+    new() { Id = idCounter++, Name = "Щенок", Age = 41 },
+    new() { Id = idCounter++, Name = "Теленок", Age = 24 },
+    new() { Id = idCounter++, Name = "Лисенок", Age = 24 },
+    new() { Id = idCounter++, Name = "Олененок", Age = 24 },
+    new() { Id = idCounter++, Name = "Волченок", Age = 24 },
+    new() { Id = idCounter++, Name = "Цыпленок", Age = 24 },
+    new() { Id = idCounter++, Name = "Рыбка", Age = 24 }
+
+};
+
+
+app.MapGet("/api/users", () => users);
+
+
+app.MapGet("/api/users/{id:int}", (int id) =>
+{
+    var user = users.FirstOrDefault(u => u.Id == id);
+    if (user == null)
+        return Results.NotFound(new { message = "Животное не найдено" });
+
+    return Results.Ok(user);
+});
+
+//Добавление нового пользователя
+app.MapPost("/api/users", (Person user) =>
+{
+    user.Id = idCounter++; // Генерируем новый ID
+    users.Add(user);
+    return Results.Created($"/api/users/{user.Id}", user);
+});
+
+//Редактирование пользователя
+app.MapPut("/api/users", (Person userData) =>
+{
+    var user = users.FirstOrDefault(u => u.Id == userData.Id);
+    if (user == null)
+        return Results.NotFound(new { message = "Животное не найдено" });
+
+    user.Name = userData.Name;
+    user.Age = userData.Age;
+
+    return Results.Json(user);
+});
+
+// Удаление пользователя
+app.MapDelete("/api/users/{id:int}", (int id) =>
+{
+    var user = users.FirstOrDefault(u => u.Id == id);
+    if (user == null)
+        return Results.NotFound(new { message = "Животное не найдено" });
+
+    users.Remove(user);
+    return Results.Ok(user);
+});
+
+app.Run();
+
+
+public class Person
+{
+    public int Id { get; set; }
+    public string Name { get; set; } = "";
+    public int Age { get; set; }
+}
